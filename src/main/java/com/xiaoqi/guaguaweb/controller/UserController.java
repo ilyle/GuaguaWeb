@@ -110,7 +110,7 @@ public class UserController {
          */
         String contentType = file.getContentType();
         contentType = contentType.substring(contentType.indexOf("/") + 1);
-        String fileName = username + "." + contentType;
+        String fileName = username + System.currentTimeMillis() + "." + contentType;
         /*
         文件路径
          */
