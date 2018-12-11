@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 @Controller
@@ -92,6 +94,46 @@ public class UserController {
             response.getWriter().write(mapper.writeValueAsString(res));
         } else {
             Response res = new Response(-1, "该用户名已被注册", null);
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(res));
+        }
+        response.getWriter().close();
+    }
+
+    @RequestMapping(value = "/user/avatar", method = RequestMethod.POST)
+    public void avatar(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws IOException{
+        HttpServletUtil.setupHttpServlet(request, response);
+        String username = request.getParameter("username"); // 获取
+        String uid = request.getParameter("uid");
+        /*
+        文件名
+         */
+        String contentType = file.getContentType();
+        contentType = contentType.substring(contentType.indexOf("/") + 1);
+        String fileName = username + "." + contentType;
+        /*
+        文件路径
+         */
+        String filePath = request.getSession().getServletContext().getRealPath("/user/avatars");
+        filePath = filePath + "/";
+        /*
+        存文件
+         */
+        File f = new File(filePath + fileName);
+        if (!f.exists()) {
+            boolean res = f.mkdirs();
+            if (res) file.transferTo(f);
+        } else {
+            file.transferTo(f);
+        }
+
+        User user = userService.updateAvatar(uid, "user/avatars/" + fileName);
+        if (user != null) {
+            Response res = new Response(0, "", user);
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(res));
+        } else {
+            Response res = new Response(-1, "上传头像失败", null);
             ObjectMapper mapper = new ObjectMapper();
             response.getWriter().write(mapper.writeValueAsString(res));
         }

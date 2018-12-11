@@ -15,6 +15,7 @@ public interface UserService {
 
     /**
      * 使用token登录，一般用于自动登录
+     *
      * @param token token
      * @return User对象
      */
@@ -36,4 +37,13 @@ public interface UserService {
      * @return User对象
      */
     User register(String username, String password);
+
+    /**
+     * 更新头像
+     *
+     * @param uid        用户ID
+     * @param avatar 头像路径
+     * @return User对象
+     */
+    User updateAvatar(String uid, String avatar);
 }

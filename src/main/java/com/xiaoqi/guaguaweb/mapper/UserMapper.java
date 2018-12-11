@@ -54,6 +54,7 @@ public interface UserMapper {
 
     /**
      * 根据用户名查找用户，用于username已被注册的情况
+     *
      * @param username 用户名
      * @return User对象
      */
@@ -70,4 +71,13 @@ public interface UserMapper {
      */
     @Insert("INSERT INTO tb_user (uid, username, password) VALUES (#{uid}, #{username}, #{password})")
     void insertUser(@Param("uid") String uid, @Param("username") String username, @Param("password") String password);
+
+    /**
+     * 更新tb_user的avatar字段
+     *
+     * @param uid    uid
+     * @param avatar 头像路径
+     */
+    @Update("update tb_user set avatar = #{avatar} where uid = #{uid}")
+    void updateAvatar(@Param("uid") String uid, @Param("avatar") String avatar);
 }

@@ -56,4 +56,9 @@ public class UserServiceImpl implements UserService {
             return userMapper.findWithUid(uid);
         }
     }
+
+    public User updateAvatar(String uid, String avatar) {
+        userMapper.updateAvatar(uid, avatar);
+        return userMapper.findWithUid(uid);
+    }
 }

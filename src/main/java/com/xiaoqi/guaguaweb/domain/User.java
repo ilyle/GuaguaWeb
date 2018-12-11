@@ -11,8 +11,9 @@ public class User implements Serializable {
     private String token; // MD5(username + password)
     private long tsTokenExpire; // token过期时间戳
     private boolean isLogin;
+    private String avatar; // 图像路径
 
-    public User(Integer id, String uid, String username, String password, boolean isLogin, String token, long tsTokenExpire) {
+    public User(Integer id, String uid, String username, String password,  String avatar, boolean isLogin, String token, long tsTokenExpire) {
         setId(id);
         setUid(uid);
         setUsername(username);
@@ -20,6 +21,7 @@ public class User implements Serializable {
         setToken(token);
         setTsTokenExpire(tsTokenExpire);
         setIsLogin(isLogin);
+        setAvatar(avatar);
     }
 
     public Integer getId() {
@@ -76,5 +78,13 @@ public class User implements Serializable {
 
     public void setTsTokenExpire(long tsTokenExpire) {
         this.tsTokenExpire = tsTokenExpire;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
